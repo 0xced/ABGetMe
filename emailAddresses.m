@@ -11,7 +11,8 @@
 			if ([address isKindOfClass:[NSString class]])
 				[emailAddresses addObject:address];
 		}
-	} @catch (NSException *e) {}
+	}
+	@catch (NSException *e) {}
 	
 	return [NSArray arrayWithArray:emailAddresses];
 }
