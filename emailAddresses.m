@@ -1,5 +1,5 @@
 // Application must link with the MessageUI framework
-- (NSArray *) emailAddresses
+NSArray* AccountEmailAddresses(void)
 {
 	NSMutableArray *emailAddresses = [NSMutableArray array];
 	@try
