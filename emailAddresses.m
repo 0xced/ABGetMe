@@ -18,7 +18,7 @@ NSArray* AccountEmailAddresses(void)
 }
 
 
-ABRecordRef ABGetMe(ABAddressBookRef addressBook)
+ABRecordRef ABCopyMe(ABAddressBookRef addressBook)
 {
 	ABRecordRef me = NULL;
 	NSArray *accountEmailAddresses = AccountEmailAddresses();
@@ -37,7 +37,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 				if (email)
 				{
 					if ([accountEmailAddresses containsObject:(id)email])
-						me = record;
+						me = ABAddressBookGetPersonWithRecordID(addressBook, ABRecordGetRecordID(record));
 					
 					CFRelease(email);
 				}
