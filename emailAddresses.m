@@ -18,7 +18,7 @@ NSArray* AccountEmailAddresses(void)
 }
 
 
-ABRecordRef ABCopyMe(ABAddressBookRef addressBook)
+ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 {
 	ABRecordRef me = NULL;
 	NSArray *accountEmailAddresses = AccountEmailAddresses();
