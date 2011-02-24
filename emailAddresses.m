@@ -4,7 +4,7 @@ NSArray* AccountEmailAddresses(void)
 	NSMutableArray *emailAddresses = [NSMutableArray array];
 	@try
 	{
-		Class MailComposeController = NSClassFromString(@"MailComposeController") || NSClassFromString(@"MFMailComposeController");
+		Class MailComposeController = NSClassFromString(@"MailComposeController") ?: NSClassFromString(@"MFMailComposeController");
 		NSArray *accountEmailAddresses = [MailComposeController performSelector:@selector(accountEmailAddresses)];
 		for (id address in accountEmailAddresses)
 		{
