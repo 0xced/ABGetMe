@@ -46,6 +46,8 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 			}
 			CFRelease(emails);
 		}
+		if (me)
+			break;
 	}
 	
 	return me;
