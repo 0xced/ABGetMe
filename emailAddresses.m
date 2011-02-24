@@ -16,3 +16,37 @@ NSArray* AccountEmailAddresses(void)
 	
 	return [NSArray arrayWithArray:emailAddresses];
 }
+
+
+ABRecordRef ABGetMe(ABAddressBookRef addressBook)
+{
+	ABRecordRef me = NULL;
+	NSArray *accountEmailAddresses = AccountEmailAddresses();
+	CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
+	CFIndex peopleCount = CFArrayGetCount(people);
+	for (CFIndex i = 0; i < peopleCount; i++)
+	{
+		ABRecordRef record = CFArrayGetValueAtIndex(people, i);
+		ABMultiValueRef emails = ABRecordCopyValue(record, kABPersonEmailProperty);
+		if (emails)
+		{
+			CFIndex emailCount = ABMultiValueGetCount(emails);
+			for (CFIndex j = 0; j < emailCount; j++)
+			{
+				CFStringRef email = ABMultiValueCopyValueAtIndex(emails, j);
+				if (email)
+				{
+					if ([accountEmailAddresses containsObject:(id)email])
+						me = record;
+					
+					CFRelease(email);
+				}
+				if (me)
+					break;
+			}
+			CFRelease(emails);
+		}
+	}
+	
+	return me;
+}
