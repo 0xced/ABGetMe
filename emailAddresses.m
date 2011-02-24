@@ -37,7 +37,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 				if (email)
 				{
 					if ([accountEmailAddresses containsObject:(id)email])
-						me = ABAddressBookGetPersonWithRecordID(addressBook, ABRecordGetRecordID(record));
+						me = record;
 					
 					CFRelease(email);
 				}
