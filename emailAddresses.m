@@ -49,6 +49,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 		if (me)
 			break;
 	}
+	CFRelease(people);
 	
 	return me;
 }
