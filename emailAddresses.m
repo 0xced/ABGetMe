@@ -1,20 +1,29 @@
 // Application must link with the MessageUI framework
 NSArray* AccountEmailAddresses(void)
 {
-	NSMutableArray *emailAddresses = [NSMutableArray array];
+	NSMutableArray *addresses = [NSMutableArray array];
 	@try
 	{
-		Class MailComposeController = NSClassFromString(@"MailComposeController") ?: NSClassFromString(@"MFMailComposeController");
-		NSArray *accountEmailAddresses = [MailComposeController performSelector:@selector(accountEmailAddresses)];
-		for (id address in accountEmailAddresses)
+		NSString *MailAccountProxy = [[NSArray arrayWithObjects:@"Mail", @"Account", @"Proxy", nil] componentsJoinedByString:@""];
+		NSString *MFMailAccountProxy = [@"MF" stringByAppendingString:MailAccountProxy];
+		Class MailAccountProxyClass = NSClassFromString(MFMailAccountProxy) ?: NSClassFromString(MailAccountProxy);
+		SEL reloadAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"reload", @"Accounts", nil] componentsJoinedByString:@""]);
+		SEL mailAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"mail", @"Accounts", nil] componentsJoinedByString:@""]);
+		SEL emailAddresses = NSSelectorFromString([[NSArray arrayWithObjects:@"email", @"Addresses", nil] componentsJoinedByString:@""]);
+		
+		[MailAccountProxyClass performSelector:reloadAccounts];
+		for (id mailAccount in [MailAccountProxyClass performSelector:mailAccounts])
 		{
-			if ([address isKindOfClass:[NSString class]])
-				[emailAddresses addObject:address];
+			for (id emailAddress in [mailAccount performSelector:emailAddresses])
+			{
+				if ([emailAddress isKindOfClass:[NSString class]])
+					[addresses addObject:emailAddress];
+			}
 		}
 	}
 	@catch (NSException *e) {}
 	
-	return [NSArray arrayWithArray:emailAddresses];
+	return [NSArray arrayWithArray:addresses];
 }
 
 
