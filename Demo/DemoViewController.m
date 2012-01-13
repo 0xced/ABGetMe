@@ -41,11 +41,30 @@
 
 // MARK: - Actions
 
+- (void) done
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 - (IBAction) me
 {
 	ABRecordRef me = ABGetMe(addressBook);
 	
-	NSLog(@"me = %@", me);
+	if (!me)
+	{
+		UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"ABGetMe" message:@"The “me” card was not found." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] autorelease];
+		[alertView show];
+		return;
+	}
+	
+	ABPersonViewController *personViewController = [[[ABPersonViewController alloc] init] autorelease];
+	personViewController.displayedPerson = me;
+	
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:personViewController] autorelease];
+	[self presentModalViewController:navigationController animated:YES];
+	
+	personViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)] autorelease];
+
 }
 
 @end
