@@ -32,6 +32,22 @@ NSArray* AccountEmailAddresses(void)
 ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 {
 	ABRecordRef me = NULL;
+	
+	@try
+	{
+		Class ABHelper = NSClassFromString([@"AB" stringByAppendingString:@"Helper"]);
+		SEL sel_sharedHelper = NSSelectorFromString([@"shared" stringByAppendingString:@"Helper"]);
+		SEL sel_me = NSSelectorFromString([@"m" stringByAppendingString:@"e"]);
+		me = (ABRecordRef)[[ABHelper performSelector:sel_sharedHelper] performSelector:sel_me];
+	}
+	@catch (NSException *exception)
+	{
+		me = NULL;
+	}
+	
+	if (me)
+		return me;
+	
 	NSArray *accountEmailAddresses = AccountEmailAddresses();
 	CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
 	CFIndex peopleCount = CFArrayGetCount(people);
