@@ -1,8 +1,15 @@
 #import "ABGetMe.h"
 
-// Application must link with the MessageUI framework
 NSArray* AccountEmailAddresses(void)
 {
+	static dispatch_once_t once;
+	dispatch_once(&once, ^{
+		NSString *systemLibraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, NO) lastObject];
+		NSString *messageUIPath = [[systemLibraryPath stringByAppendingPathComponent:@"Frameworks"] stringByAppendingPathComponent:@"MessageUI.framework"];
+		NSBundle *messageUI = [NSBundle bundleWithPath:messageUIPath];
+		[messageUI load];
+	});
+	
 	NSMutableArray *addresses = [NSMutableArray array];
 	@try
 	{

@@ -10,7 +10,6 @@
 		DAC30AA414C06BE300B5A9B6 /* DemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC30AA514C06BE300B5A9B6 /* DemoViewController.xib */; };
 		DADD3FD314C06DF00040CAB5 /* ABGetMe.m in Sources */ = {isa = PBXBuildFile; fileRef = DADD3FD214C06DF00040CAB5 /* ABGetMe.m */; };
 		DADD3FD614C06E6A0040CAB5 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADD3FD514C06E6A0040CAB5 /* AddressBook.framework */; };
-		DADD3FD814C06E850040CAB5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADD3FD714C06E850040CAB5 /* MessageUI.framework */; };
 		DADD3FDA14C071BD0040CAB5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADD3FD914C071BD0040CAB5 /* AddressBookUI.framework */; };
 		DAE4947814C06A3700BCA6F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE4947714C06A3700BCA6F1 /* UIKit.framework */; };
 		DAE4947A14C06A3700BCA6F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE4947914C06A3700BCA6F1 /* Foundation.framework */; };
@@ -25,7 +24,6 @@
 		DADD3FD114C06DF00040CAB5 /* ABGetMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABGetMe.h; sourceTree = "<group>"; };
 		DADD3FD214C06DF00040CAB5 /* ABGetMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABGetMe.m; sourceTree = "<group>"; };
 		DADD3FD514C06E6A0040CAB5 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		DADD3FD714C06E850040CAB5 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DADD3FD914C071BD0040CAB5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		DAE4947314C06A3700BCA6F1 /* ABGetMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABGetMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE4947714C06A3700BCA6F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -49,7 +47,6 @@
 				DAE4947A14C06A3700BCA6F1 /* Foundation.framework in Frameworks */,
 				DAE4947C14C06A3700BCA6F1 /* CoreGraphics.framework in Frameworks */,
 				DADD3FD614C06E6A0040CAB5 /* AddressBook.framework in Frameworks */,
-				DADD3FD814C06E850040CAB5 /* MessageUI.framework in Frameworks */,
 				DADD3FDA14C071BD0040CAB5 /* AddressBookUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,7 +91,6 @@
 				DADD3FD914C071BD0040CAB5 /* AddressBookUI.framework */,
 				DAE4947B14C06A3700BCA6F1 /* CoreGraphics.framework */,
 				DAE4947914C06A3700BCA6F1 /* Foundation.framework */,
-				DADD3FD714C06E850040CAB5 /* MessageUI.framework */,
 				DAE4947714C06A3700BCA6F1 /* UIKit.framework */,
 			);
 			name = Frameworks;
