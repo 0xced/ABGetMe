@@ -1,5 +1,7 @@
 #import "ABGetMe.h"
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 NSArray* AccountEmailAddresses(void)
 {
 	static dispatch_once_t once;
@@ -45,7 +47,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 		Class ABHelper = NSClassFromString([@"AB" stringByAppendingString:@"Helper"]);
 		SEL sel_sharedHelper = NSSelectorFromString([@"shared" stringByAppendingString:@"Helper"]);
 		SEL sel_me = NSSelectorFromString([@"m" stringByAppendingString:@"e"]);
-		me = (ABRecordRef)[[ABHelper performSelector:sel_sharedHelper] performSelector:sel_me];
+		me = (__bridge ABRecordRef)[[ABHelper performSelector:sel_sharedHelper] performSelector:sel_me];
 	}
 	@catch (NSException *exception)
 	{
@@ -70,7 +72,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 				CFStringRef email = ABMultiValueCopyValueAtIndex(emails, j);
 				if (email)
 				{
-					if ([accountEmailAddresses containsObject:(id)email])
+					if ([accountEmailAddresses containsObject:(__bridge id)email])
 						me = record;
 					
 					CFRelease(email);

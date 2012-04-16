@@ -36,7 +36,6 @@
 - (void) dealloc
 {
 	CFRelease(addressBook);
-	[super dealloc];
 }
 
 // MARK: - Actions
@@ -52,18 +51,18 @@
 	
 	if (!me)
 	{
-		UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:@"ABGetMe" message:@"The “me” card was not found." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] autorelease];
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"ABGetMe" message:@"The “me” card was not found." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
 		[alertView show];
 		return;
 	}
 	
-	ABPersonViewController *personViewController = [[[ABPersonViewController alloc] init] autorelease];
+	ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];
 	personViewController.displayedPerson = me;
 	
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:personViewController] autorelease];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:personViewController];
 	[self presentModalViewController:navigationController animated:YES];
 	
-	personViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)] autorelease];
+	personViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
 
 }
 
