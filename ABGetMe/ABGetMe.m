@@ -1,5 +1,11 @@
 #import "ABGetMe.h"
 
+#import <Foundation/Foundation.h>
+
+#define ABGETME_ENABLE_PRIVATE_APIS 1
+
+#if ABGETME_ENABLE_PRIVATE_APIS
+
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
 static ABRecordRef Me(void);
@@ -58,7 +64,8 @@ static ABRecordRef PersonMatchingEmailAddresses(ABAddressBookRef addressBook, NS
 	return person;
 }
 
-NSArray *AccountEmailAddresses(void)
+static NSArray *AccountEmailAddresses(void);
+static NSArray *AccountEmailAddresses(void)
 {
 	static dispatch_once_t once;
 	dispatch_once(&once, ^{
@@ -93,13 +100,29 @@ NSArray *AccountEmailAddresses(void)
 	return [NSArray arrayWithArray:addresses];
 }
 
+#endif
+
+static ABRecordRef PersonMatchingDeviceName(void);
+static ABRecordRef PersonMatchingDeviceName(void)
+{
+	return NULL;
+}
+
 ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 {
-	ABRecordRef me = Me();
+	ABRecordRef me = NULL;
+	
+#if ABGETME_ENABLE_PRIVATE_APIS
+	me = Me();
 	if (me)
 		return me;
 	
 	me = PersonMatchingEmailAddresses(addressBook, AccountEmailAddresses());
+	if (me)
+		return me;
+#endif
+	
+	me = PersonMatchingDeviceName();
 	if (me)
 		return me;
 	
