@@ -102,10 +102,45 @@ static NSArray *AccountEmailAddresses(void)
 
 #endif
 
-static ABRecordRef PersonMatchingDeviceName(void);
-static ABRecordRef PersonMatchingDeviceName(void)
+static ABRecordRef PersonMatchingDeviceName(ABAddressBookRef addressBook);
+static ABRecordRef PersonMatchingDeviceName(ABAddressBookRef addressBook)
 {
-	return NULL;
+	NSString *ownerName = nil;
+	NSString *deviceName = [[UIDevice currentDevice] name];
+	// Default device names extracted from iTunes 10.6.1 Localizable.strings files
+	NSSet *defaultNameFormats = [NSSet setWithObjects:@"%@ de (.*)", @"(.*) - %@", @"(.*)s %@", @"%@ van (.*)", @"%@ \u03c4\u03bf\u03c5 \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u00ab(.*)\u00bb", @"(.*)\u2019s %@", @"K\u00e4ytt\u00e4j\u00e4n (.*) %@", @"%@ von (.*)", @"%@ od (.*)", @"(.*) %@ k\u00e9sz\u00fcl\u00e9ke", @"%@ di (.*)", @"(.*) \u306e %@", @"(.*)\uc758 %@", @"%@ ((.*))", @"%@ - (.*)", @"%@ (.*)", @"%@ u\u017e\u00edvate\u013ea (.*)", @"%@ \u0e02\u0e2d\u0e07 (.*)", @"(.*) %@'u", @"(.*) %@'i", @"(.*)\u00a0\u2014 %@", @"\u201c(.*)\u201d\u7684 %@", @"(.*) \u7684 %@", nil];
+	NSSet *models = [NSSet setWithObjects:@"iPad", @"iPhone", @"iPod", nil];
+	for (NSString *model in models)
+	{
+		for (NSString *defaultNameFormat in defaultNameFormats)
+		{
+			NSString *defaultNamePattern = [NSString stringWithFormat:defaultNameFormat, model];
+			NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:defaultNamePattern options:0 error:NULL];
+			NSTextCheckingResult *result = [regularExpression firstMatchInString:deviceName options:0 range:NSMakeRange(0, [deviceName length])];
+			if (result)
+			{
+				ownerName = [deviceName substringWithRange:[result rangeAtIndex:1]];
+				break;
+			}
+		}
+		if (ownerName)
+			break;
+	}
+	
+	if (!ownerName)
+		return NULL;
+
+	ABRecordRef person = NULL;
+	CFArrayRef people = ABAddressBookCopyPeopleWithName(addressBook, (__bridge CFStringRef)ownerName);
+	if (people)
+	{
+		if (CFArrayGetCount(people) == 1)
+			person = CFArrayGetValueAtIndex(people, 0);
+		
+		CFRelease(people);
+	}
+	
+	return person;
 }
 
 ABRecordRef ABGetMe(ABAddressBookRef addressBook)
@@ -122,7 +157,7 @@ ABRecordRef ABGetMe(ABAddressBookRef addressBook)
 		return me;
 #endif
 	
-	me = PersonMatchingDeviceName();
+	me = PersonMatchingDeviceName(addressBook);
 	if (me)
 		return me;
 	
