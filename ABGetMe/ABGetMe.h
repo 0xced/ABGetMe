@@ -1,5 +1,5 @@
 #import <AddressBook/AddressBook.h>
 
-NSArray* AccountEmailAddresses(void);
+NSArray *AccountEmailAddresses(void);
 
 ABRecordRef ABGetMe(ABAddressBookRef addressBook);
