@@ -108,8 +108,31 @@ static ABRecordRef PersonMatchingDeviceName(ABAddressBookRef addressBook)
 	NSString *ownerName = nil;
 	NSString *deviceName = [[UIDevice currentDevice] name];
 	// Default device names extracted from iTunes 10.6.1 Localizable.strings files
-	NSSet *defaultNameFormats = [NSSet setWithObjects:@"%@ de (.*)", @"(.*) - %@", @"(.*)s %@", @"%@ van (.*)", @"%@ \u03c4\u03bf\u03c5 \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u00ab(.*)\u00bb", @"(.*)\u2019s %@", @"K\u00e4ytt\u00e4j\u00e4n (.*) %@", @"%@ von (.*)", @"%@ od (.*)", @"(.*) %@ k\u00e9sz\u00fcl\u00e9ke", @"%@ di (.*)", @"(.*) \u306e %@", @"(.*)\uc758 %@", @"%@ ((.*))", @"%@ - (.*)", @"%@ (.*)", @"%@ u\u017e\u00edvate\u013ea (.*)", @"%@ \u0e02\u0e2d\u0e07 (.*)", @"(.*) %@'u", @"(.*) %@'i", @"(.*)\u00a0\u2014 %@", @"\u201c(.*)\u201d\u7684 %@", @"(.*) \u7684 %@", nil];
-	NSSet *models = [NSSet setWithObjects:@"iPad", @"iPhone", @"iPod", nil];
+	NSArray *defaultNameFormats = [NSArray arrayWithObjects:@"%@ de (.*)", // Catalan, French, Portuguese, Spanish
+	                                                        @"%@ di (.*)", // Italian
+	                                                        @"%@ od (.*)", // Croatian
+	                                                        @"%@ van (.*)", // Dutch
+	                                                        @"%@ von (.*)", // German
+	                                                        @"%@ u\u017e\u00edvate\u013ea (.*)", // Slovak
+	                                                        @"%@ \u03c4\u03bf\u03c5 \u03c7\u03c1\u03ae\u03c3\u03c4\u03b7 \u00ab(.*)\u00bb", // Greek
+	                                                        @"%@ \u0e02\u0e2d\u0e07 (.*)", // Thai
+	                                                        @"%@ \\((.*)\\)", // Polish
+	                                                        @"%@ - (.*)", // Romanian
+	                                                        @"K\u00e4ytt\u00e4j\u00e4n (.*) %@", // Finnish
+	                                                        @"\u201c(.*)\u201d\u7684 %@", // Chinese (China)
+	                                                        @"(.*)\u00a0\u2014 %@", // Ukrainian
+	                                                        @"(.*)\uc758 %@", // Korean
+	                                                        @"(.*)\u2019s %@", // English
+	                                                        @"(.*)s %@", // Danish, Norwegian, Swedish
+	                                                        @"(.*) \u7684 %@", // Chinese (Taiwan)
+	                                                        @"(.*) %@'u", // Turkish (iPhone, iPod)
+	                                                        @"(.*) %@'i", // Turkish (iPad)
+	                                                        @"(.*) %@ k\u00e9sz\u00fcl\u00e9ke", // Hungarian
+	                                                        @"(.*) \u306e %@", // Japanese
+	                                                        @"(.*) - %@", // Czech
+	                                                        @"%@ (.*)", // Russian
+	                                                        nil];
+	NSArray *models = [NSArray arrayWithObjects:@"iPad", @"iPhone", @"iPod", nil];
 	for (NSString *model in models)
 	{
 		for (NSString *defaultNameFormat in defaultNameFormats)
