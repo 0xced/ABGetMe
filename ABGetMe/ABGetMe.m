@@ -132,13 +132,13 @@ static ABRecordRef PersonMatchingDeviceName(ABAddressBookRef addressBook)
 	                                                        @"(.*) - %@", // Czech
 	                                                        @"%@ (.*)", // Russian
 	                                                        nil];
-	NSArray *models = [NSArray arrayWithObjects:@"iPad", @"iPhone", @"iPod", nil];
+	NSArray *models = [NSArray arrayWithObjects:@"iPad", @"iPhone", @"iPod", @"iPod touch", nil];
 	for (NSString *model in models)
 	{
 		for (NSString *defaultNameFormat in defaultNameFormats)
 		{
 			NSString *defaultNamePattern = [NSString stringWithFormat:defaultNameFormat, model];
-			NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:defaultNamePattern options:0 error:NULL];
+			NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:defaultNamePattern options:NSRegularExpressionCaseInsensitive error:NULL];
 			NSTextCheckingResult *result = [regularExpression firstMatchInString:deviceName options:0 range:NSMakeRange(0, [deviceName length])];
 			if (result)
 			{
