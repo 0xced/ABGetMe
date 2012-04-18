@@ -47,7 +47,7 @@ static ABRecordRef PersonMatchingEmailAddresses(ABAddressBookRef addressBook, NS
 				if (email)
 				{
 					if ([emailAddresses containsObject:(__bridge id)email])
-						person = record;
+						person = ABAddressBookGetPersonWithRecordID(addressBook, ABRecordGetRecordID(record));
 					
 					CFRelease(email);
 				}
@@ -135,7 +135,7 @@ static ABRecordRef PersonMatchingDeviceName(ABAddressBookRef addressBook)
 	if (people)
 	{
 		if (CFArrayGetCount(people) == 1)
-			person = CFArrayGetValueAtIndex(people, 0);
+			person = ABAddressBookGetPersonWithRecordID(addressBook, ABRecordGetRecordID(CFArrayGetValueAtIndex(people, 0)));
 		
 		CFRelease(people);
 	}
