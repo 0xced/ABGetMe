@@ -79,16 +79,28 @@ static NSArray *AccountEmailAddresses(void)
 	@try
 	{
 		NSString *MailAccountProxy = [[NSArray arrayWithObjects:@"Mail", @"Account", @"Proxy", nil] componentsJoinedByString:@""];
-		NSString *MFMailAccountProxy = [@"MF" stringByAppendingString:MailAccountProxy];
-		Class MailAccountProxyClass = NSClassFromString(MFMailAccountProxy) ?: NSClassFromString(MailAccountProxy);
-		SEL reloadAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"reload", @"Accounts", nil] componentsJoinedByString:@""]);
-		SEL mailAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"mail", @"Accounts", nil] componentsJoinedByString:@""]);
-		SEL emailAddresses = NSSelectorFromString([[NSArray arrayWithObjects:@"email", @"Addresses", nil] componentsJoinedByString:@""]);
+		Class MFMailAccountProxy = NSClassFromString([@"MF" stringByAppendingString:MailAccountProxy]) ?: NSClassFromString(MailAccountProxy);
+		Class MFMailAccountProxyGenerator = NSClassFromString([[NSArray arrayWithObjects:@"MF", @"Mail", @"Account", @"Proxy", @"Generator", nil] componentsJoinedByString:@""]);
+		SEL sel_reloadAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"reload", @"Accounts", nil] componentsJoinedByString:@""]);
+		SEL sel_mailAccounts = NSSelectorFromString([[NSArray arrayWithObjects:@"mail", @"Accounts", nil] componentsJoinedByString:@""]);
+		SEL sel_emailAddresses = NSSelectorFromString([[NSArray arrayWithObjects:@"email", @"Addresses", nil] componentsJoinedByString:@""]);
+		SEL sel_allAccountProxies = NSSelectorFromString([[NSArray arrayWithObjects:@"all", @"Account", @"Proxies", nil] componentsJoinedByString:@""]);
 		
-		[MailAccountProxyClass performSelector:reloadAccounts];
-		for (id mailAccount in [MailAccountProxyClass performSelector:mailAccounts])
+		NSArray *mailAccounts = nil;
+		if (MFMailAccountProxyGenerator)
 		{
-			for (id emailAddress in [mailAccount performSelector:emailAddresses])
+			id mailAccountProxyGenerator = [[MFMailAccountProxyGenerator alloc] init];
+			mailAccounts = [mailAccountProxyGenerator performSelector:sel_allAccountProxies];
+		}
+		else
+		{
+			[MFMailAccountProxy performSelector:sel_reloadAccounts];
+			mailAccounts = [MFMailAccountProxy performSelector:sel_mailAccounts];
+		}
+		
+		for (id mailAccount in mailAccounts)
+		{
+			for (id emailAddress in [mailAccount performSelector:sel_emailAddresses])
 			{
 				if ([emailAddress isKindOfClass:[NSString class]])
 					[addresses addObject:emailAddress];
